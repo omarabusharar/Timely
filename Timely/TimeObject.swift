@@ -45,8 +45,11 @@ final class TimeObject {
             guard let self = self else { return }
             if remaining > 0 {
                 remaining -= 1
+            } else {
+                showFloatingAlert()
+                self.stopTimer()
             }
-            print("Timer tick: \(self.hours):\(self.minutes):\(self.seconds)")
+           // print("Timer tick: \(self.hours):\(self.minutes):\(self.seconds)")
         }
     }
     

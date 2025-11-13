@@ -7,47 +7,45 @@
 
 import SwiftUI
 
+let workSet = TimeSet(title: "Work", icon: "briefcase", hours: 1, minutes: 30, seconds: 0)
+let breakSet = TimeSet(title: "Break", icon: "figure.walk", hours: 0, minutes: 15, seconds: 0)
+
 struct ContentView: View {
-   @Binding var selectedSet: TimeSet?
+   @Binding var selectedSet: TimeSet? 
    @Binding var timeObject: TimeObject
     @Environment(\.dismiss) var dismiss
+    @Environment(\.openWindow) var openWindow
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                HStack {
-                    Text("Timely")
-                        .font(.title3)
-                        .fontWidth(.expanded)
-                        .fontWeight(.bold)
-                    Spacer()
-                    NavigationLink(destination: {
-                        SettingsView()
-                    }, label: {
-                       Label("Settings", systemImage: "gear")
-                    })
-               
-                    .labelStyle(.iconOnly)
-                }
-                TimeCell(selectedSet: $selectedSet, set: .init(title: "Work", icon: "briefcase", hours: 1, minutes: 30, seconds: 0))
-                
-                Spacer()
-                TimeCell(selectedSet: $selectedSet, set: .init(title: "Break", icon: "figure.walk", hours: 0, minutes: 15, seconds: 0))
-                Spacer()
-                Divider()
-                HStack {
-                    if (timeObject.isRunning) {
-                        Button("Pause") {
-                            // Reset timer action
-                            timeObject.pauseTimer()
+
+                if (selectedSet?.title == workSet.title || !timeObject.isRunning) {
+                        TimeCell(selectedSet: $selectedSet, set: workSet)
+                        .onAppear {
+                            selectedSet = workSet
                         }
-                    } else if (timeObject.didStart) {
+                }
+                    
+                if (selectedSet?.title == breakSet.title || !timeObject.isRunning) {
+                    TimeCell(selectedSet: $selectedSet, set: breakSet)
+                }
+  
+                HStack(alignment: .firstTextBaseline) {
+                    if (!timeObject.isRunning && timeObject.didStart) {
                         Button("Resume") {
                             // Resume timer action
                             timeObject.startTimer()
                         }
                         
+                    } else {
+                        Button("Pause") {
+                            // Reset timer action
+                            timeObject.pauseTimer()
+                        }
+                        .disabled(!timeObject.didStart)
                     }
-                    Spacer()
+                  
+                
                     if (timeObject.didStart) {
                        
                         Button("Stop") {
@@ -57,25 +55,41 @@ struct ContentView: View {
                     } else {
                         Button("Start") {
                             // Start timer action
-                            if let ref = selectedSet {
-                                timeObject = TimeObject(reference: ref)
-                            }
-                            timeObject.startTimer()
+                     
+                                if let ref = selectedSet {
+                                    timeObject = TimeObject(reference: ref)
+                                }
+                                timeObject.startTimer()
+                            
                         }
                         .disabled(selectedSet == nil)
                     }
+
+                    Spacer()
+                    Menu("Menu", content: {
+                        NavigationLink(destination: {
+                            SettingsView()
+                        }, label: {
+                            Label("Settings", systemImage: "gear")
+                        })
+                        Button("About", systemImage: "info.circle") {
+                            NSApp.orderFrontStandardAboutPanel(nil)
+                        }
+                        Button("Quit", systemImage: "xmark") {
+                            NSApp.terminate(nil)
+                        }
+                    })
+                    .font(.title)
+                    .menuIndicator(.automatic)
                    
-                   
-                   
-                    Button("Quit") {
-                        NSApp.terminate(nil)
-                    }
+                  
                 }
                 .padding(.bottom)
             }
+            .animation(.bouncy, value: timeObject.isRunning)
             .padding(.horizontal)
             .padding(.top)
         }
-        .frame(width: 300, height: 200)
+      
     }
 }
