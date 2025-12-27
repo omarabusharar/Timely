@@ -7,39 +7,34 @@
 
 import SwiftUI
 
-let workSet = TimeSet(title: "Work", icon: "briefcase", hours: 1, minutes: 30, seconds: 0)
-let breakSet = TimeSet(title: "Break", icon: "figure.walk", hours: 0, minutes: 15, seconds: 0)
+
 
 struct ContentView: View {
-   @Binding var selectedSet: TimeSet? 
+   @Binding var selectedSet: TimeSet?
    @Binding var timeObject: TimeObject
     @Environment(\.dismiss) var dismiss
     @Environment(\.openWindow) var openWindow
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-
-                if (selectedSet?.title == workSet.title || !timeObject.isRunning) {
-                        TimeCell(selectedSet: $selectedSet, set: workSet)
+                if (selectedSet?.title == TimeSet.work.title || !timeObject.isRunning) {
+                        TimeCell(selectedSet: $selectedSet, set: TimeSet.work)
                         .onAppear {
-                            selectedSet = workSet
+                            selectedSet = TimeSet.work
                         }
                 }
                     
-                if (selectedSet?.title == breakSet.title || !timeObject.isRunning) {
-                    TimeCell(selectedSet: $selectedSet, set: breakSet)
+                if (selectedSet?.title == TimeSet.recess.title || !timeObject.isRunning) {
+                    TimeCell(selectedSet: $selectedSet, set: TimeSet.recess)
                 }
   
                 HStack(alignment: .firstTextBaseline) {
                     if (!timeObject.isRunning && timeObject.didStart) {
                         Button("Resume") {
-                            // Resume timer action
                             timeObject.startTimer()
                         }
-                        
                     } else {
                         Button("Pause") {
-                            // Reset timer action
                             timeObject.pauseTimer()
                         }
                         .disabled(!timeObject.didStart)
@@ -49,13 +44,10 @@ struct ContentView: View {
                     if (timeObject.didStart) {
                        
                         Button("Stop") {
-                            // Stop timer action
                             timeObject.stopTimer()
                         }
                     } else {
                         Button("Start") {
-                            // Start timer action
-                     
                                 if let ref = selectedSet {
                                     timeObject = TimeObject(reference: ref)
                                 }
@@ -81,8 +73,6 @@ struct ContentView: View {
                     })
                     .font(.title)
                     .menuIndicator(.automatic)
-                   
-                  
                 }
                 .padding(.bottom)
             }

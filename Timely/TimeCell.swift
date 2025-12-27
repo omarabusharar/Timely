@@ -12,7 +12,11 @@ struct TimeCell: View {
     @State var set: TimeSet
 
     var isSelected: Bool {
-        selectedSet == set
+        if selectedSet == nil {
+            return false
+        } else {
+            return selectedSet! == set
+        }
     }
     var body: some View {
        
@@ -65,5 +69,5 @@ struct TimeCell: View {
 }
 
 #Preview {
-    TimeCell(selectedSet: .constant(nil), set: workSet)
+    TimeCell(selectedSet: .constant(nil), set: TimeSet.recess)
 }

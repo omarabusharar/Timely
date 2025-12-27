@@ -8,21 +8,46 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var workHours: Int = 0
+    @AppStorage("workHours") private var workHours: Int = 1
+    @AppStorage("workMinutes") private var workMins: Int = 30
+    @AppStorage("workSeconds") private var workSeconds: Int = 0
+    
+    @AppStorage("breakHours") private var breakHours: Int = 0
+    @AppStorage("breakMinutes") private var breakMins: Int = 15
+    @AppStorage("breakSeconds") private var breakSeconds: Int = 0
+    
+    @AppStorage("Continous") private var continous: Bool = true
     var body: some View {
-        ScrollView {
-            Form {
-                Section("Work", content: {
-                   TimePicker(value: $workHours, title: "Hours", limit: (0, 24))
-                })
-            }
+        List {
+            Text("Settings need restart of Timely to properly take effect")
+            TimePickerSection(title: "Work", hours: $workHours, mins: $workMins, seconds: $workSeconds)
+            TimePickerSection(title: "Break", hours: $breakHours, mins: $breakMins, seconds: $breakSeconds)
+            Section(content: {
+                Toggle("Continous", isOn: $continous)
+            }, footer: {
+                Text("Cycle between work and break automatically")
+            })
         }
+        .listRowSeparator(.hidden)
         .navigationTitle("Settings")
-        .toolbarTitleDisplayMode(.inline)
-        .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        
     }
 }
+
+struct TimePickerSection: View {
+    var title: String
+    @Binding var hours: Int
+    @Binding var mins: Int
+    @Binding var seconds: Int
+    var body: some View {
+        Section(title, content: {
+           TimePicker(value: $hours, title: "Hours", limit: (0, 24))
+           TimePicker(value: $mins, title: "Minutes", limit: (0, 60))
+           TimePicker(value: $seconds, title: "Seconds", limit: (0, 60))
+        })
+    }
+}
+
 
 struct TimePicker: View {
     @Binding var value: Int
