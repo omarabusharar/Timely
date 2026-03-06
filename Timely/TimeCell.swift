@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TimeCell: View {
     @Binding var selectedSet: TimeSet?
-    @State var set: TimeSet
+    let set: TimeSet
 
     var isSelected: Bool {
         if selectedSet == nil {

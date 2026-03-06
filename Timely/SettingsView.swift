@@ -19,7 +19,6 @@ struct SettingsView: View {
     @AppStorage("Continous") private var continous: Bool = true
     var body: some View {
         List {
-            Text("Settings need restart of Timely to properly take effect")
             TimePickerSection(title: "Work", hours: $workHours, mins: $workMins, seconds: $workSeconds)
             TimePickerSection(title: "Break", hours: $breakHours, mins: $breakMins, seconds: $breakSeconds)
             Section(content: {

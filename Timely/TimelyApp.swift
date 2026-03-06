@@ -20,7 +20,7 @@ struct TimelyApp: App {
             #endif
             if !didInitialize {
                 TimeSet.initializeDefaults(for: "work", values: (1,30,0))
-                TimeSet.initializeDefaults(for: "break", values: (0,45,0))
+                TimeSet.initializeDefaults(for: "break", values: (0,15,0))
                 didInitialize = true
             }
         }
