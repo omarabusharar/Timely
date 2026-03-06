@@ -137,6 +137,13 @@ struct ContentView: View {
             .onChange(of: breakSeconds) {
                 refreshSelectedSetIfIdle()
             }
+            .onChange(of: timeObject.reference.title) {
+                if timeObject.reference.title == workSet.title {
+                    selectedSet = workSet
+                } else if timeObject.reference.title == breakSet.title {
+                    selectedSet = breakSet
+                }
+            }
         }
       
     }

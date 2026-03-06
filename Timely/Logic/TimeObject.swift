@@ -29,7 +29,7 @@ final class TimeObject {
     }
     var isRunning: Bool = false
     var didStart: Bool {
-        return remaining < referenceTime
+        return isRunning || remaining < referenceTime
     }
     var isCompleted: Bool {
         return remaining == 0
@@ -47,7 +47,17 @@ final class TimeObject {
                 remaining -= 1
             } else {
                 showFloatingAlert()
-                self.stopTimer()
+                let isContinous = (UserDefaults.standard.object(forKey: "Continous") as? Bool) ?? true
+                if isContinous {
+                    if reference.title == TimeSet.work.title {
+                        reference = TimeSet.recess
+                    } else {
+                        reference = TimeSet.work
+                    }
+                    remaining = referenceTime
+                } else {
+                    self.stopTimer()
+                }
             }
            // print("Timer tick: \(self.hours):\(self.minutes):\(self.seconds)")
         }
