@@ -1,9 +1,13 @@
+<img width="3000" height="1000" alt="timely banner" src="https://github.com/user-attachments/assets/7c5946a8-3d08-49ac-8036-666d923169d9" />
+
 # Timely
+
 Menu bar timer app for Mac.
 
 ## Preview
-<img width="523" height="287" alt="Screenshot 2026-03-05 at 6 11 52 PM" src="https://github.com/user-attachments/assets/3b7ebed0-d54c-4223-976e-b216989f34a7" />
-<img width="523" height="287" alt="Screenshot 2026-03-05 at 6 11 37 PM" src="https://github.com/user-attachments/assets/04b96f17-d80f-45e5-9cd5-c8a836288eb6" />
+ Timer in Progress         |  Timer Menu
+:-------------------------:|:-------------------------:
+![](https://github.com/user-attachments/assets/3b7ebed0-d54c-4223-976e-b216989f34a7)  |  ![](https://github.com/user-attachments/assets/04b96f17-d80f-45e5-9cd5-c8a836288eb6)
 
 ## Features
 - Toggle between one off or pommodoro-style between presets
